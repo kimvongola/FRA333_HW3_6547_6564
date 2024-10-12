@@ -59,7 +59,7 @@ rank = np.linalg.matrix_rank(J_e) #ใช้ Robotic Toolbox เพื่อห�
         return 0  
 singular_result=singularcheck(jacobiancheck(q))  
 ผลลัพธ์ที่ได้จาก Function โดย 1=Singularity,0=Normal  
-0
+0  
 ///////// ข้อ 3 ///////////  
 การหา tau ผ่านสมการ tau=J_e.transpose @ w โดย J_e มาจากผลลัพธ์ jacob0() และ w มาจาก Wrench=[force,momentum]  
     tau = robot.pay(w,J=J_e,frame=0) #Robotic Toolbox คำนวนหส Tau โดย w=wrench, J=Jacobian Matrix, Frame=0 คือคำนวนโดยมี Frame 0 เป็น Reference   

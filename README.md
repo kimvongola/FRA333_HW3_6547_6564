@@ -15,10 +15,13 @@ q=[0.0,-pi/2.0,-0.2] (องศากำหนดเองเพื่่อใ�
 สร้าง DH-Parameter ผ่าน Robotic Toolbox เพื่อความถูกต้องและแม่นยำโดยใช้ตัวแปรที่กำหนดไว้  
 
 robot=rtb.DHRobot(  
+
         [  
+        
             rtb.RevoluteMDH(alpha = 0.0,a = 0.0,d = d_1,offset = pi), # DH-parameter จาก Frame 0 -> 1  
             rtb.RevoluteMDH(alpha = pi/2.0,a =0.0 ,d = 0.0,offset = 0.0),# DH-parameter จาก Frame 1 -> 2  
             rtb.RevoluteMDH(alpha = 0.0,a = a_2,d = 0.0,offset = 0.0)# DH-parameter จาก Frame 2 -> 3  
+            
         ],  
         # Transformation Matrix จาก Frame 3 -> e  
         tool=SE3([[0, 0, -1.0, a_3 + d_6], # Translation ในแกน X  

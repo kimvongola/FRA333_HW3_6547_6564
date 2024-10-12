@@ -35,25 +35,40 @@ print(robot)
 └────────┴───────┴────────────┴────────┘  
   
 ┌──────┬─────────────────────────────────────────────────┐  
-│ tool │ t = -0.47, -0.093, 0.11; rpy/xyz = 0°, -90°, 0° │  
+│ tool │ t = -0.47, -0.093, 0.11; rpy/xyz = 0°, -90°, 0° │ ผลลัพธ์ที่ได้จาก DHRobot  
 └──────┴─────────────────────────────────────────────────┘  
 ///////// ข้อ 1 ///////////  
 คำนวนหา Jacobian Matrix ผ่าน Robotic Toolobox jaco0() โดยเป็น Function ที่คำนวน Jacobian Matrix โดยมี Frame 0 (Base Frame) เป็นอ้างอิง  
 def jacobiancheck(q):  
     J_e=robot.jacob0(q) # คำนวน Jacobian Matrix ผ่าน Robotic Toolbox โดยใช้ [q1,q2,q3] ที่ให้  
     return J_e  
-J_e=jacobiancheck(q)  
+J_e=jacobiancheck(q) #กำหนดให้ J_e เป็นผลลัพธ์ของ jacobiancheck(q)  
+print(jacobiancheck(q))  
+ผลลัพธ์ Jacobian Matrix ที่ได้จาก jaco0()  
+[-1.09000000e-01  9.08449234e-01  4.83449234e-01]  
+ [-3.10849887e-03 -1.11443285e-16 -5.93957964e-17]  
+ [ 3.59538873e-18  3.10849887e-03  3.10849887e-03]  
+ [-1.34144565e-17  1.22464680e-16  1.22464680e-16]  
+ [-6.62682453e-34  1.00000000e+00  1.00000000e+00]  
+ [ 1.00000000e+00  6.12323400e-17  6.12323400e-17]  
+ 
 //////// ข้อ 2 ///////////  
 การคำนวนหา Singularity ทำได้โดยหา Rank ของ Jacobian Matrix แล้วเทียบกับ Minimum rank ของ Jacobian Matrix ถ้า Rank น้อยกว่า Minimum rank จะเป็น Singularity  
 (การสูญเสียการควบคุมไป >= 1 DOF จะทำให้ Rank ลดลงกว่า Minimum rank ซึ่งสามารถควบคุมได้ครบทุก Dof(3 DoF))  
 rank = np.linalg.matrix_rank(J_e) #ใช้ Robotic Toolbox เพื่อหา Rank (จำนวน Row หรือ Column ที่ ไม่สามารถมาจากผลลัพธ์ของ Row หรือ Column อื่นใน Matrix เดียวกัน)  
     is_singular = rank < min(J_e.shape) #ตั้งเงื่อนไขเพื่อหา Singularity (ถ้า rank น้อยกว่า minimum ของ Jacobian Matrix)  
-    print(rank)  
-    print(is_singular)  
     if is_singular==True: #ถ้าเป็น Singularity  
         return 1  
     else:  
         return 0  
 singular_result=singularcheck(jacobiancheck(q))  
+print(singular_result)  
+ผลลัพธ์ที่ได้จาก Function โดย 1=Singularity,0=Normal  
+0
 ///////// ข้อ 3 ///////////  
-การหา tau ผ่านสมการ tau=J_e.transpose @ w โดย J_e มาจากผลลัพธ์ jacob0() และ w มาจาก Wrench=[force,momentum] 
+การหา tau ผ่านสมการ tau=J_e.transpose @ w โดย J_e มาจากผลลัพธ์ jacob0() และ w มาจาก Wrench=[force,momentum]  
+def effortcheck(q,w):  
+    tau = robot.pay(w,J=J_e,frame=0) #Robotic Toolbox คำนวนหส Tau โดย w=wrench, J=Jacobian Matrix, Frame=0 คือคำนวนโดยมี Frame 0 เป็น Reference   
+    return tau  
+print(effortcheck(q,np.array([10,0,0,0,0,0])))  # กำหนดให้ wrench=[10,0,0,0,0,0] สำหรับ Test Case  
+ผลลัพธ์ที่ได้จาก Functin= [ 1.09,-9.08449234,-4.83449234]

@@ -50,8 +50,6 @@ print(jacobiancheck(q))
 def singularcheck(J_e):
     rank = np.linalg.matrix_rank(J_e) #ใช้ Robotic Toolbox เพื่อหา Rank (จำนวน Row หรือ Column ที่ ไม่สามารถมาจากผลลัพธ์ของ Row หรือ Column อื่นใน Matrix เดียวกัน)
     is_singular = rank < min(J_e.shape) #ตั้งเงื่อนไขเพื่อหา Singularity (ถ้า rank น้อยกว่า minimum ของ Jacobian Matrix)
-    print(rank)
-    print(is_singular)
     if is_singular==True: #ถ้าเป็น Singularity
         return 1
     else:

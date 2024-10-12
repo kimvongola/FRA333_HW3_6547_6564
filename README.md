@@ -320,6 +320,7 @@ Part กำหนดตัวแปร และ DH-Parameter
 ผลลัพธ์ที่ได้จาก Function โดย 1=Singularity,0=Normal 
 
         0  
+	#*****จากผลลัพธ์จะสังเกตเห็นได้ว่าผลลัพธ์จาก ||det(J_e)|| จะต่างจากการเทียบ Rank ของ Jacobian Matrix เนื่องจาก ||det(J_e)|| จะนำแค่ส่วน Linear Velocity Matrix มาใช้แต่การเทียบ Rank จะใช้ Jacobian Matrix ที่มีทั้ง Linear Velocity และ Angular Velocity ทำให้สรุปได้ว่า 3DOF-Manipulator จะอยู่ในสภาวะ Singularity ถ้าแขนหุ่นมีแค่ Linear Velocity แต่จะอยู่ในสภาวะ Normal ถ้าแขนหุ่นมีทั้ง Linear Velocity และ Angular Velocity*****#
 ///////// ข้อ 3 ///////////  
 การหา tau ผ่านสมการ tau=J_e.transpose @ w โดย J_e มาจากผลลัพธ์ jacob0() และ w มาจาก Wrench=[force,momentum]  
 
